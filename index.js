@@ -50,6 +50,7 @@ async function run(){
         const partsCollection = client.db('manufacturer_website').collection('parts');
         const userCollection = client.db('manufacturer_website').collection('user');
         const orderCollection = client.db('manufacturer_website').collection('order');
+        const reviewCollection = client.db('manufacturer_website').collection('review');
         const paymentCollection = client.db('manufacturer_website').collection('payment');
 
         app.get('/parts' , async(req, res) =>{
@@ -193,6 +194,21 @@ async function run(){
       res.send(result)
   })
 
+
+   //get all review
+   app.get('/review', async (req, res) => {
+    const query = {};
+    const cursor = reviewCollection.find(query);
+    const reviews = await cursor.toArray();
+    res.send(reviews);
+});
+
+//post a review
+app.post('/review', async (req, res) => {
+    const review = req.body;
+    const result = await reviewCollection.insertOne(review);
+    res.send(result);
+});
 
 
 
