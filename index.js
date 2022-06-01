@@ -241,8 +241,8 @@ app.post('/review', async (req, res) => {
 
 
 app.post('/create-payment-intent', verifyJWT, async(req, res) =>{
-  const myOrder = req.body;
-  const price = myOrder.price;
+  const order = req.body;
+  const price = order.price;
   const amount = price*100;
   const paymentIntent = await stripe.paymentIntents.create({
       amount : amount,
