@@ -125,7 +125,7 @@ async function run(){
               res.send(orders)
           }
           else {
-              return res.status(403).send({ message: 'Forbidden accsess' })
+              return res.status(403).send({ message: 'Forbidden access' })
           }
       })
 
@@ -175,6 +175,12 @@ async function run(){
           const result = await orderCollection.deleteOne(filter)
           res.send(result)
       })
+
+        app.post('/order', verifyJWT, async (req, res) => {
+        const part = req.body
+        const result = await orderCollection.insertOne(part)
+        res.send(result)
+    })
 
 
 
