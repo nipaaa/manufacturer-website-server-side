@@ -176,11 +176,17 @@ async function run(){
           res.send(result)
       })
 
-        app.post('/order', verifyJWT, async (req, res) => {
-        const part = req.body
-        const result = await orderCollection.insertOne(part)
-        res.send(result)
-    })
+        //post new order
+        app.post('/order', async (req, res) => {
+          const order = req.body;
+          const query = { name: order.name, date: order.date, user: order.user }
+          const exists = await orderCollection.findOne(query);
+          if (exists) {
+              return res.send({ success: false, order: exists })
+          }
+          const result = await orderCollection.insertOne(order);
+          res.send({ success: true, result });
+      });
 
 
 
