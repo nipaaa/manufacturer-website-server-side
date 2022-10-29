@@ -255,6 +255,37 @@ app.post('/create-payment-intent', verifyJWT, async(req, res) =>{
 
 
 
+
+//profile update new
+  app.put("/user/:email", async (req, res) => {
+    const email = req.params.email;
+    const profile = req.body;
+    const query = { email };
+    const options = { upsert: true };
+    const updateDoc = {
+      $set: {
+        name: profile.name,
+        email: profile.email,
+        education: profile.education,
+        number: profile.number,
+        address: profile.address,
+        linkedin: profile.linkedin,
+      },
+    };
+    const result = await userCollection.updateOne(query, updateDoc, options);
+    res.send(result);
+  });
+
+  app.get("/user/:email", async (req, res) => {
+    const email = req.params.email;
+    const query = { email };
+    const result = await userCollection.findOne(query);
+    res.send(result);
+  });
+
+
+
+
     }
 
     finally{
